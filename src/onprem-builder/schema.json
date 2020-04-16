@@ -1,7 +1,7 @@
 {
   "id": "Schema",
   "title": "schema",
-  "description": "Deployment of Angular CLI applications to Netlify",
+  "description": "Retrieve process environment variable during ng build",
   "type": "object",
   "properties": {
     "project": {

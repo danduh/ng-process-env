@@ -18,7 +18,7 @@ import * as ts from "typescript";
 import { getDefaultEnvironmentCode, getSourceNodes } from "../utils/ast";
 
 const BUILDER_TARGET = {
-  "builder": "ngx-onprem-builder:collectVars",
+  "builder": "ng-process-env:collectVars",
   "options": {
     "environmentFile": ""
   }

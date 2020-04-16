@@ -1,7 +1,7 @@
 {
   "$schema": "../node_modules/@angular-devkit/schematics/collection-schema.json",
   "schematics": {
-    "onprem-env": {
+    "process-env": {
       "description": "Creates environment.ts file with environment variables on builder machine",
       "factory": "./onprem-environment/index#onpremEnvironment",
       "schema": "./onprem-environment/schema.json"

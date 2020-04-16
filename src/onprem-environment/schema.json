@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "ngx-onprem-builder-",
+  "id": "ng-process-env",
   "title": "Creates a file using the given path",
   "type": "object",
   "properties": {

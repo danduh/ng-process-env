@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "ngx-onprem-builder-ng-add",
-  "title": "NGX OnPrem Builder ng-add schematic",
+  "id": "ng-process-env-ng-add",
+  "title": "NG Process Environment Builder ng-add schematic",
   "type": "object",
   "properties": {
     "project": {

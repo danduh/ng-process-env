@@ -5,7 +5,7 @@
 Just add it into your app.
 
 ```bash
-ng add ngx-onprem-builder
+ng add ng-process-env
 ```
 
 You will be prompted to insert relevant project name project name.  
@@ -14,7 +14,7 @@ You can skip it and use schematics generator later.
 Use schematics to update relevant project.
 
 ```bash
-ng shematic:ngx-onprem-builder
+ng shematic:ng-process-env
 ```
 
 Insert project name 
@@ -23,6 +23,16 @@ Insert project name
  Project my-app will be updated
     Env File will be created at apps/my-app/src/environments
 ```
+
+#Collect Vars
+
+To update the created environment ts file with variables from process.env:
+```bash
+ng run my-app:collect-vars
+```
+
+
+#More details
 
 Navigate to `apps/my-app/src/environments` 
 End open new created file `environment.onprem.ts`  
