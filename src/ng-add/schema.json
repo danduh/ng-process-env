@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "ngx-onprem-builder-ng-add",
+  "title": "NGX OnPrem Builder ng-add schematic",
+  "type": "object",
+  "properties": {
+    "project": {
+      "type": "string",
+      "description": "Project name to update angular.json config.",
+      "x-prompt": "Project name to update angular.json config. (you can skip and do it later using schematics or manually)"
+    },
+    "config": {
+      "type": "string",
+      "description": "give a name to configuration, 'onprem' - default",
+      "x-prompt": "You can set name for config to be updated or added as a new"
+    }
+  }
+}

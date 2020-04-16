@@ -1,0 +1,10 @@
+{
+  "$schema": "@angular-devkit/architect/src/builders-schema.json",
+  "builders": {
+    "collectVars": {
+      "implementation": "./src/onprem-builder",
+      "description": "Runs any command line in the operating system.",
+      "schema": "./src/onprem-builder/schema.json"
+    }
+  }
+}

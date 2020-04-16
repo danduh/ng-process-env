@@ -1,0 +1,13 @@
+{
+  "id": "Schema",
+  "title": "schema",
+  "description": "Deployment of Angular CLI applications to Netlify",
+  "type": "object",
+  "properties": {
+    "project": {
+      "type": "string",
+      "description": "Project name to update angular.json config.",
+      "x-prompt": "Project name to update angular.json config. (you can skip and do it later using schematics or manually)"
+    }
+  }
+}
