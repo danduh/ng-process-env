@@ -10,21 +10,11 @@ import {
 } from '@angular-devkit/schematics';
 import { OnPremOptions } from "./schema";
 import { normalize } from "@angular-devkit/core";
-// import { NodePackageInstallTask } from "@angular-devkit/schematics/tasks";
 import { EnvProcessor } from "./processor";
 import * as fs from "fs";
 import * as ts from "typescript";
-// import { environmentFilesMerger } from "./environment-files.merger";
 import { getDefaultEnvironmentCode, getSourceNodes } from "../utils/ast";
 
-const BUILDER_TARGET = {
-  "builder": "ng-process-env:collectVars",
-  "options": {
-    "environmentFile": ""
-  }
-};
-
-const BUILDER_COMMAND = 'collect-vars';
 
 /**
  * Should create
@@ -33,28 +23,16 @@ const BUILDER_COMMAND = 'collect-vars';
 export function onpremEnvironment(_options: OnPremOptions): Rule {
   return (tree: Tree, _context: SchematicContext) => {
     // @ts-ignore
-    const processor = new EnvProcessor(_options, _context);
-
     let envsPath: string = '';
-
     _options.config = _options.config || 'onprem';
 
-    const fileReplace = (path: string) => {
-      return {
-        "replace": `${path}/environment.ts`,
-        "with": `${path}/environment.${_options.config}.ts`,
-      }
-    };
+    const processor = new EnvProcessor(_options);
 
     _context.logger.info(`Project ${_options.project} will be updated`);
-    _context.logger.warn('Warn message');
-    _context.logger.error('Error message');
-
 
     if (tree.exists('angular.json')) {
-
       const angularStr = tree.read('angular.json')!.toString('utf-8');
-      const angular = JSON.parse(angularStr);
+      let angular = JSON.parse(angularStr);
       const projs = (Object.keys(angular['projects']));
 
       if (!angular['projects'].hasOwnProperty(_options.project)) {
@@ -65,27 +43,15 @@ export function onpremEnvironment(_options: OnPremOptions): Rule {
       envsPath = processor.lookForBaseJsonPathInNG(angular);
       _context.logger.warn('Env File will be created at ' + envsPath);
 
-      BUILDER_TARGET.options.environmentFile = `${envsPath}/environment.${_options.config}.ts`;
-      angular['projects'][_options.project]['architect'][BUILDER_COMMAND] = BUILDER_TARGET;
+      angular = processor.addFileReplacement(angular, envsPath);
 
-      if (angular['projects'][_options.project]['architect']['build'].configurations.hasOwnProperty(_options.config)) {
-
-        if (angular['projects'][_options.project]['architect']['build'].configurations[_options.config].hasOwnProperty('fileReplacements'))
-          angular['projects'][_options.project]['architect']['build'].configurations[_options.config]['fileReplacements'].push(fileReplace(envsPath));
-        else
-          angular['projects'][_options.project]['architect']['build'].configurations[_options.config]['fileReplacements'] = [fileReplace(envsPath)];
-
-      } else {
-
-        angular['projects'][_options.project]['architect']['build'].configurations[_options.config] = {
-          fileReplacements: [fileReplace(envsPath)]
-        }
-
-      }
       tree.overwrite('angular.json', JSON.stringify(angular, null, '\t'));
+    } else {
+      console.error('can\'t find angular.json file', normalize(__dirname + 'angular.json'))
+
     }
 
-
+    console.log('==>', typeof envsPath, envsPath, __dirname);
     let sourceText = tree.read(envsPath + '/environment.ts')!.toString('utf-8');
     let sourceFile = ts.createSourceFile(envsPath + '/environment.ts', sourceText, ts.ScriptTarget.Latest, true);
     let nodes: ts.Node[] = getSourceNodes(sourceFile);

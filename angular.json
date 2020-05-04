@@ -3,11 +3,11 @@
 	"version": 1,
 	"newProjectRoot": "",
 	"projects": {
-		"art": {
-			"root": "apps/art-catalogue/",
-			"sourceRoot": "apps/art-catalogue/src",
+		"my-app": {
+			"root": "apps/my-app/",
+			"sourceRoot": "apps/my-app/src",
 			"projectType": "application",
-			"prefix": "art-catalogue",
+			"prefix": "my-app",
 			"schematics": {
 				"@nrwl/schematics:component": {
 					"style": "scss"
@@ -17,18 +17,18 @@
 				"build": {
 					"builder": "@angular-devkit/build-angular:browser",
 					"options": {
-						"outputPath": "dist/apps/art-catalogue",
-						"index": "apps/art-catalogue/src/index.html",
-						"main": "apps/art-catalogue/src/main.ts",
-						"polyfills": "apps/art-catalogue/src/polyfills.ts",
-						"tsConfig": "apps/art-catalogue/tsconfig.app.json",
+						"outputPath": "dist/apps/my-app",
+						"index": "apps/my-app/src/index.html",
+						"main": "apps/my-app/src/main.ts",
+						"polyfills": "apps/my-app/src/polyfills.ts",
+						"tsConfig": "apps/my-app/tsconfig.app.json",
 						"assets": [
-							"apps/art-catalogue/src/favicon.ico",
-							"apps/art-catalogue/src/assets"
+							"apps/my-app/src/favicon.ico",
+							"apps/my-app/src/assets"
 						],
 						"styles": [
 							"./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-							"apps/art-catalogue/src/styles.scss"
+							"apps/my-app/src/styles.scss"
 						],
 						"scripts": [],
 						"es5BrowserSupport": true
@@ -37,24 +37,24 @@
 						"develop": {
 							"fileReplacements": [
 								{
-									"replace": "apps/art-catalogue/src/environments/environment.ts",
-									"with": "apps/art-catalogue/src/environments/environment.onprem.ts"
+									"replace": "apps/my-app/src/environments/environment.ts",
+									"with": "apps/my-app/src/environments/environment.onprem.ts"
 								}
 							]
 						},
 						"qa": {
 							"fileReplacements": [
 								{
-									"replace": "apps/art-catalogue/src/environments/environment.ts",
-									"with": "apps/art-catalogue/src/environments/environment.qa.ts"
+									"replace": "apps/my-app/src/environments/environment.ts",
+									"with": "apps/my-app/src/environments/environment.qa.ts"
 								}
 							]
 						},
 						"production": {
 							"fileReplacements": [
 								{
-									"replace": "apps/art-catalogue/src/environments/environment.ts",
-									"with": "apps/art-catalogue/src/environments/environment.prod.ts"
+									"replace": "apps/my-app/src/environments/environment.ts",
+									"with": "apps/my-app/src/environments/environment.prod.ts"
 								}
 							],
 							"optimization": true,
@@ -81,12 +81,12 @@
 						"onprem": {
 							"fileReplacements": [
 								{
-									"replace": "apps/art-catalogue/src/environments/environment.ts",
-									"with": "apps/art-catalogue/src/environments/environment.onprem.ts"
+									"replace": "apps/my-app/src/environments/environment.ts",
+									"with": "apps/my-app/src/environments/environment.onprem.ts"
 								},
 								{
-									"replace": "apps/art-catalogue/src/environments/environment.ts",
-									"with": "apps/art-catalogue/src/environments/environment.onprem.ts"
+									"replace": "apps/my-app/src/environments/environment.ts",
+									"with": "apps/my-app/src/environments/environment.onprem.ts"
 								}
 							]
 						}
@@ -95,46 +95,46 @@
 				"serve": {
 					"builder": "@angular-devkit/build-angular:dev-server",
 					"options": {
-						"browserTarget": "art-catalogue:build"
+						"browserTarget": "my-app:build"
 					},
 					"configurations": {
 						"production": {
-							"browserTarget": "art-catalogue:build:production"
+							"browserTarget": "my-app:build:production"
 						},
 						"qa": {
-							"browserTarget": "art-catalogue:build:qa"
+							"browserTarget": "my-app:build:qa"
 						},
 						"develop": {
-							"browserTarget": "art-catalogue:build:develop"
+							"browserTarget": "my-app:build:develop"
 						}
 					}
 				},
 				"extract-i18n": {
 					"builder": "@angular-devkit/build-angular:extract-i18n",
 					"options": {
-						"browserTarget": "art-catalogue:build"
+						"browserTarget": "my-app:build"
 					}
 				},
 				"lint": {
 					"builder": "@angular-devkit/build-angular:tslint",
 					"options": {
 						"tsConfig": [
-							"apps/art-catalogue/tsconfig.app.json",
-							"apps/art-catalogue/tsconfig.spec.json"
+							"apps/my-app/tsconfig.app.json",
+							"apps/my-app/tsconfig.spec.json"
 						],
 						"exclude": [
 							"**/node_modules/**",
-							"!apps/art-catalogue/**"
+							"!apps/my-app/**"
 						]
 					}
 				},
 				"test": {
 					"builder": "@angular-devkit/build-angular:karma",
 					"options": {
-						"main": "apps/art-catalogue/src/test.ts",
-						"tsConfig": "apps/art-catalogue/tsconfig.spec.json",
-						"karmaConfig": "apps/art-catalogue/karma.conf.js",
-						"polyfills": "apps/art-catalogue/src/polyfills.ts",
+						"main": "apps/my-app/src/test.ts",
+						"tsConfig": "apps/my-app/tsconfig.spec.json",
+						"karmaConfig": "apps/my-app/karma.conf.js",
+						"polyfills": "apps/my-app/src/polyfills.ts",
 						"styles": [
 							"./node_modules/@angular/material/prebuilt-themes/indigo-pink.css"
 						],
@@ -145,141 +145,11 @@
 				"collect-vars": {
 					"builder": "ngx-onprem-builder:collectVars",
 					"options": {
-						"environmentFile": "apps/art-catalogue/src/environments/environment.onprem.ts"
+						"environmentFile": "apps/my-app/src/environments/environment.onprem.ts"
 					}
 				}
 			}
 		},
-		"art-ttt": {
-			"root": "apps/art-catalogue/",
-			"sourceRoot": "apps/art-catalogue/src",
-			"projectType": "application",
-			"prefix": "art-catalogue",
-			"schematics": {
-				"@nrwl/schematics:component": {
-					"style": "scss"
-				}
-			},
-			"architect": {
-				"build": {
-					"builder": "@angular-devkit/build-angular:browser",
-					"options": {
-						"outputPath": "dist/apps/art-catalogue",
-						"index": "apps/art-catalogue/src/index.html",
-						"main": "apps/art-catalogue/src/main.ts",
-						"polyfills": "apps/art-catalogue/src/polyfills.ts",
-						"tsConfig": "apps/art-catalogue/tsconfig.app.json",
-						"assets": [
-							"apps/art-catalogue/src/favicon.ico",
-							"apps/art-catalogue/src/assets"
-						],
-						"styles": [
-							"./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-							"apps/art-catalogue/src/styles.scss"
-						],
-						"scripts": [],
-						"es5BrowserSupport": true
-					},
-					"configurations": {
-						"develop": {},
-						"onprem": {
-							"fileReplacements": [
-								{
-									"replace": "apps/art-catalogue/src/environments/environment.ts",
-									"with": "apps/art-catalogue/src/environments/environment.onprem.ts"
-								}
-							]
-						},
-						"qa": {
-							"fileReplacements": [
-								{
-									"replace": "apps/art-catalogue/src/environments/environment.ts",
-									"with": "apps/art-catalogue/src/environments/environment.qa.ts"
-								}
-							]
-						},
-						"production": {
-							"fileReplacements": [
-								{
-									"replace": "apps/art-catalogue/src/environments/environment.ts",
-									"with": "apps/art-catalogue/src/environments/environment.prod.ts"
-								}
-							],
-							"optimization": true,
-							"outputHashing": "all",
-							"sourceMap": false,
-							"extractCss": true,
-							"namedChunks": false,
-							"aot": true,
-							"extractLicenses": true,
-							"vendorChunk": false,
-							"buildOptimizer": true,
-							"budgets": [
-								{
-									"type": "initial",
-									"maximumWarning": "2mb",
-									"maximumError": "5mb"
-								},
-								{
-									"type": "anyComponentStyle",
-									"maximumWarning": "6kb"
-								}
-							]
-						}
-					}
-				},
-				"serve": {
-					"builder": "@angular-devkit/build-angular:dev-server",
-					"options": {
-						"browserTarget": "art-catalogue:build"
-					},
-					"configurations": {
-						"production": {
-							"browserTarget": "art-catalogue:build:production"
-						},
-						"qa": {
-							"browserTarget": "art-catalogue:build:qa"
-						},
-						"develop": {
-							"browserTarget": "art-catalogue:build:develop"
-						}
-					}
-				},
-				"extract-i18n": {
-					"builder": "@angular-devkit/build-angular:extract-i18n",
-					"options": {
-						"browserTarget": "art-catalogue:build"
-					}
-				},
-				"lint": {
-					"builder": "@angular-devkit/build-angular:tslint",
-					"options": {
-						"tsConfig": [
-							"apps/art-catalogue/tsconfig.app.json",
-							"apps/art-catalogue/tsconfig.spec.json"
-						],
-						"exclude": [
-							"**/node_modules/**",
-							"!apps/art-catalogue/**"
-						]
-					}
-				},
-				"test": {
-					"builder": "@angular-devkit/build-angular:karma",
-					"options": {
-						"main": "apps/art-catalogue/src/test.ts",
-						"tsConfig": "apps/art-catalogue/tsconfig.spec.json",
-						"karmaConfig": "apps/art-catalogue/karma.conf.js",
-						"polyfills": "apps/art-catalogue/src/polyfills.ts",
-						"styles": [
-							"./node_modules/@angular/material/prebuilt-themes/indigo-pink.css"
-						],
-						"scripts": [],
-						"assets": []
-					}
-				}
-			}
-		}
 	},
 	"cli": {
 		"warnings": {
@@ -297,5 +167,5 @@
 			"style": "scss"
 		}
 	},
-	"defaultProject": "art-catalogue"
+	"defaultProject": "my-app"
 }

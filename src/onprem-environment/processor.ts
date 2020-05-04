@@ -1,5 +1,5 @@
 import { OnPremOptions } from "./schema";
-import { SchematicContext } from "@angular-devkit/schematics";
+import { BUILDER_COMMAND, BUILDER_TARGET, DEFAULT_CONFIG_NAME } from "./constants";
 
 const fs = require('fs');
 const path = require('path');
@@ -9,13 +9,19 @@ export class EnvProcessor {
   private baseJson: any = {};
   private baseFilePath = path.join(__dirname, './');
   private options: OnPremOptions;
-  private context: SchematicContext;
 
-  constructor(options: OnPremOptions, context: SchematicContext) {
+
+  constructor(options: OnPremOptions) {
     this.options = options;
-    this.context = context;
 
   }
+
+  private fileReplace(path: string) {
+    return {
+      "replace": `${path}/environment.ts`,
+      "with": `${path}/environment.${this.options.config}.ts`,
+    }
+  };
 
   lookForBaseJsonPathInNG(angularJson?: any): string {
     const configurations = Object.keys(angularJson.projects[this.options.project].architect.build.configurations);
@@ -37,21 +43,28 @@ export class EnvProcessor {
     return envPath;
   }
 
-  loadBaseJson() {
-    if (!this.options.hasOwnProperty('baseJson')) {
-      let pathToFile = this.lookForBaseJsonPathInNG();
-      this.baseFilePath = path.join(__dirname, pathToFile, 'base.environment.json');
-    } else {
-      this.baseFilePath = path.join(__dirname, this.options.path);
-    }
+  addFileReplacement(angular: any, envsPath: string) {
+    const configName = this.options.config || DEFAULT_CONFIG_NAME;
 
-    if (fs.existsSync(this.baseFilePath)) {
-      let rawdata = fs.readFileSync(this.baseFilePath);
-      this.baseJson = JSON.parse(rawdata);
+    BUILDER_TARGET.options.environmentFile = `${envsPath}/environment.${this.options.config}.ts`;
+    angular['projects'][this.options.project]['architect'][BUILDER_COMMAND] = BUILDER_TARGET;
+
+    if (angular['projects'][this.options.project]['architect']['build'].configurations.hasOwnProperty(configName)) {
+
+
+      if (angular['projects'][this.options.project]['architect']['build'].configurations[configName].hasOwnProperty('fileReplacements'))
+        angular['projects'][this.options.project]['architect']['build'].configurations[configName]['fileReplacements'].push(this.fileReplace(envsPath));
+      else
+        angular['projects'][this.options.project]['architect']['build'].configurations[configName]['fileReplacements'] = [this.fileReplace(envsPath)];
+
     } else {
-      this.context.logger.error(`Can't find the base json file. looking at => ${this.baseFilePath}`);
-      process.exit(1);
+
+      angular['projects'][this.options.project]['architect']['build'].configurations[configName] = {
+        fileReplacements: [this.fileReplace(envsPath)]
+      }
+
     }
+    return angular
   }
 
   mapEnvironmentVars() {

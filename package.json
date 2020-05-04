@@ -1,11 +1,15 @@
 {
   "name": "ng-process-env",
-  "version": "0.0.29-betta",
+  "version": "0.0.32-betta",
   "description": "Helps you to run ng build onprem environment",
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "test": "npm run build && jasmine src/**/*_spec.js",
     "all": "npm run build && npm pack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/danduh/ng-process-env.git"
   },
   "keywords": [
     "schematics"
@@ -14,6 +18,10 @@
   "author": "Daniel Ostrovsky",
   "license": "MIT",
   "schematics": "./src/collection.json",
+  "bugs": {
+    "url": "https://github.com/danduh/ng-process-env"
+  },
+  "homepage": "https://github.com/danduh/ng-process-env#readme",
   "dependencies": {
     "@angular-devkit/architect": "^0.901.1",
     "@angular-devkit/core": "^9.1.0",
@@ -22,8 +30,9 @@
     "typescript": "~3.8.2"
   },
   "devDependencies": {
-    "@types/node": "^12.11.1",
+    "@angular/cli": "^9.1.1",
     "@types/jasmine": "~3.5.0",
+    "@types/node": "^12.11.1",
     "jasmine": "^3.5.0"
   }
 }

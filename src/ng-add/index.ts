@@ -14,7 +14,7 @@ export default function (ngAddOptions: NgAddOptions): Rule {
 
     return chain(
       [
-        schematic('onprem-env', ngAddOptions)
+        schematic('process-env', ngAddOptions)
       ]
     )(host, context);
   };
