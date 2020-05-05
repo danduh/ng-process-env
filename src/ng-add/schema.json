@@ -12,7 +12,7 @@
     "config": {
       "type": "string",
       "description": "give a name to configuration, 'onprem' - default",
-      "x-prompt": "You can set name for config to be updated or added as a new"
+      "x-prompt": "You can set name for config to be updated or added as a new one, 'onprem' - default"
     }
   }
 }

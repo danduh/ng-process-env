@@ -31,6 +31,11 @@ Insert project name
     Env File will be created at apps/my-app/src/environments
 ```
 
+Define environment name
+```bash
+? You can set name for config to be updated or added as a new one, 'onprem' - default 
+```
+
 #Collect Vars
 
 To update the created environment ts file with variables from process.env:

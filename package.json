@@ -3,6 +3,7 @@
   "version": "1.0.2",
   "description": "**ng-process-env** will help you to retrieve values from System Environment variables and update relevant `environment.ts` file.",
   "scripts": {
+    "prepublish": "npm run build",
     "build": "tsc -p tsconfig.json",
     "test": "npm run build && jasmine src/**/*_spec.js",
     "all": "npm run build && npm pack"
