@@ -5,7 +5,7 @@
   "scripts": {
     "prepublish": "npm run build",
     "build": "tsc -p tsconfig.json",
-    "test": "npm run build && jasmine src/**/*_spec.js",
+    "test": "npm run build && jest",
     "all": "npm run build && npm pack"
   },
   "repository": {
@@ -39,6 +39,8 @@
     "@angular/cli": "^9.1.1",
     "@types/jasmine": "~3.5.0",
     "@types/node": "^12.11.1",
-    "jasmine": "^3.5.0"
+    "jasmine": "^3.5.0",
+    "jest": "^26.0.0",
+    "jest-preset-angular": "^8.1.3"
   }
 }

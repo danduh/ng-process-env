@@ -25,10 +25,10 @@ export class EnvProcessor {
 
   lookForBaseJsonPathInNG(angularJson?: any): string {
     const configurations = Object.keys(angularJson.projects[this.options.project].architect.build.configurations);
+
     let envPath: string = '';
     configurations.some((configName) => {
       const config = angularJson.projects[this.options.project].architect.build.configurations[configName];
-
       if (config.hasOwnProperty('fileReplacements') && Array.isArray(config.fileReplacements)) {
         for (let i = 0; i < config.fileReplacements.length; i++) {
           const repls = config.fileReplacements[i].replace.split('/');
@@ -50,8 +50,6 @@ export class EnvProcessor {
     angular['projects'][this.options.project]['architect'][BUILDER_COMMAND] = BUILDER_TARGET;
 
     if (angular['projects'][this.options.project]['architect']['build'].configurations.hasOwnProperty(configName)) {
-
-
       if (angular['projects'][this.options.project]['architect']['build'].configurations[configName].hasOwnProperty('fileReplacements'))
         angular['projects'][this.options.project]['architect']['build'].configurations[configName]['fileReplacements'].push(this.fileReplace(envsPath));
       else

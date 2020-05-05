@@ -41,6 +41,13 @@ export function onpremEnvironment(_options: OnPremOptions): Rule {
       }
 
       envsPath = processor.lookForBaseJsonPathInNG(angular);
+      if (!envsPath) {
+        _context.logger.error(`We not able to find the location of your \n
+         environment.ts files. Project: ${_options.project} in your angular.json [${projs}] \n
+         run command with --path property`);
+        process.exit(2)
+      }
+
       _context.logger.warn('Env File will be created at ' + envsPath);
 
       angular = processor.addFileReplacement(angular, envsPath);
