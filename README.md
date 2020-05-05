@@ -1,5 +1,13 @@
 # Environment variables from process into Angular app
 
+Angular already has his own environment system, can configure everything in src/environments/environment.ts 
+and you can create as many environments as you want. 
+The problem is, sometimes you want to use the System Environment variables, 
+for example, some configuration from the CI server or if build process is running "on-premise" server, 
+in this case, Angular environment system will not help.
+
+**ng-process-env** will help you to retrieve values from System Environment variables and update relevant `environment.ts` file.
+
 
 ### Installing
 Just add it into your app.
@@ -9,9 +17,7 @@ ng add ng-process-env
 ```
 
 You will be prompted to insert relevant project name project name.  
-You can skip it and use schematics generator later. 
-
-Use schematics to update relevant project.
+You can skip it and use schematics generator later by running: 
 
 ```bash
 ng g ng-process-env:process-env
@@ -19,7 +25,8 @@ ng g ng-process-env:process-env
 
 Insert project name 
 ```bash
-? Project name to update angular.json config. (you can skip and do it later using schematics or manually) my-app
+? Project name to update angular.json config. 
+(you can skip and do it later using schematics or manually) my-app
  Project my-app will be updated
     Env File will be created at apps/my-app/src/environments
 ```
