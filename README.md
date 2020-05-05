@@ -14,7 +14,7 @@ You can skip it and use schematics generator later.
 Use schematics to update relevant project.
 
 ```bash
-ng shematic:ng-process-env
+ng g ng-process-env:process-env
 ```
 
 Insert project name 
@@ -35,10 +35,10 @@ ng run my-app:collect-vars
 #More details
 
 Navigate to `apps/my-app/src/environments` 
-End open new created file `environment.onprem.ts`  
+Open a new created file `environment.onprem.ts`  
 Should looks similar to: 
 
-```angular2
+```typescript
 export const environment = {
   production: false,
   envVar: {
@@ -57,11 +57,45 @@ We suggest you to add default values too.
 ## Example
 
 _environment.onprem.ts_
-```angular2
+
+```typescript
 export const environment = {
   production: false,
   envVar: {
-    API_URL: 'http://localhost:3000'
+    API_URL: 'http://localhost:3000',
+    servePort: 4200,
+    customer_id: '700',
+    otherKey: 'defaultValue'
   }
 };
 ```
+
+### Collect vars 
+
+To update _environment.onprem.ts_ with variables from environment run:
+
+```shell script
+ng run my-app:collect-vars
+```
+
+Updated _environment.onprem.ts_.
+```typescript
+export const environment = {
+    production: false,
+    envVar: {
+        otherKey: 'defaultValue',
+        API_URL: "api.domain.com",
+        servePort: 5000 as number,
+        customer_id: "1234"
+    }
+};
+```
+
+| environment.onprem.ts           | Type   | exported value   (process.env[someKey])| Will be changed with       |
+|---------------------------------|--------|--------------------------------------|------------------------------|
+| `API_URL: 'localhost:3000'`     | string | 'api.domain.com'                     | `API_URL: 'api.domain.com'`  |
+| `servePort: 4200`               | number | 5000                                 | `servePort: 5000 as number`  |
+| `customer_id: '700'`            | string | 1234                                 | `customer_id: '1234'`        |
+| `otherKey: 'defaultValue'`      | string | _null or undefined_                  | `otherKey: 'defaultValue'`   |
+
+
