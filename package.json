@@ -1,6 +1,6 @@
 {
   "name": "ng-process-env",
-  "version": "0.0.32-betta",
+  "version": "1.0.0",
   "description": "Helps you to run ng build onprem environment",
   "scripts": {
     "build": "tsc -p tsconfig.json",
