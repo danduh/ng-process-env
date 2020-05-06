@@ -4,6 +4,10 @@ import { BUILDER_COMMAND, BUILDER_TARGET, DEFAULT_CONFIG_NAME } from "./constant
 const fs = require('fs');
 const path = require('path');
 
+export interface EnvPathResult {
+  path?: string;
+  error?: string;
+}
 
 export class EnvProcessor {
   private baseJson: any = {};
@@ -16,26 +20,32 @@ export class EnvProcessor {
 
   }
 
-  private fileReplace(path: string) {
+  private fileReplace(envPath: EnvPathResult) {
     return {
-      "replace": `${path}/environment.ts`,
-      "with": `${path}/environment.${this.options.config}.ts`,
+      replace: `${envPath.path}/environment.ts`,
+      with: `${envPath.path}/environment.${this.options.config}.ts`,
     }
   };
 
-  lookForBaseJsonPathInNG(angularJson?: any): string {
-    const configurations = Object.keys(angularJson.projects[this.options.project].architect.build.configurations);
+  lookForBaseJsonPathInNG(angularJson?: any): EnvPathResult {
+    const configurations = angularJson.projects[this.options.project].architect.build.configurations;
+    const configNames: string[] = Object.keys(configurations);
 
-    let envPath: string = '';
-    configurations.some((configName) => {
-      const config = angularJson.projects[this.options.project].architect.build.configurations[configName];
+    let envPath: EnvPathResult = {error: 'Not able to locate path of your environment.ts file. use --path'};
+
+    configNames.forEach((configName: string) => {
+      let config = configurations[configName];
+
       if (config.hasOwnProperty('fileReplacements') && Array.isArray(config.fileReplacements)) {
+
         for (let i = 0; i < config.fileReplacements.length; i++) {
           const repls = config.fileReplacements[i].replace.split('/');
           if (repls.pop() === 'environment.ts') {
-            envPath = repls.join('/');
+            envPath.path = repls.join('/');
+            envPath.error = undefined;
             return true;
           }
+
         }
       }
     });
@@ -43,10 +53,10 @@ export class EnvProcessor {
     return envPath;
   }
 
-  addFileReplacement(angular: any, envsPath: string) {
+  addFileReplacement(angular: any, envsPath: EnvPathResult) {
     const configName = this.options.config || DEFAULT_CONFIG_NAME;
 
-    BUILDER_TARGET.options.environmentFile = `${envsPath}/environment.${this.options.config}.ts`;
+    BUILDER_TARGET.options.environmentFile = `${envsPath.path}/environment.${this.options.config}.ts`;
     angular['projects'][this.options.project]['architect'][BUILDER_COMMAND] = BUILDER_TARGET;
 
     if (angular['projects'][this.options.project]['architect']['build'].configurations.hasOwnProperty(configName)) {

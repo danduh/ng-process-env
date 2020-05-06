@@ -21,6 +21,18 @@ const ANGULAR_JSON_MOCK = {
     }
   }
 };
+const ANGULAR_JSON_MOCK_ER = {
+  projects: {
+    testApp: {
+      architect: {
+        build: {
+          configurations: {}
+        }
+      }
+    }
+  }
+};
+
 
 describe('processor', () => {
   const options: OnPremOptions = {
@@ -35,7 +47,14 @@ describe('processor', () => {
   });
 
   it('Look For Base Json Path In Angular.json', () => {
-    let path = processor.lookForBaseJsonPathInNG(ANGULAR_JSON_MOCK);
-    expect(path).toBe("test/path/to/file");
-  })
+    let envPath = processor.lookForBaseJsonPathInNG(ANGULAR_JSON_MOCK);
+    expect(envPath.path).toBe("test/path/to/file");
+  });
+
+  it('Look For Base Json Path In Angular.json should fail', () => {
+    let envPath = processor.lookForBaseJsonPathInNG(ANGULAR_JSON_MOCK_ER);
+    expect(envPath.path).toBe(undefined);
+    expect(envPath.error).toBeDefined();
+  });
+
 });

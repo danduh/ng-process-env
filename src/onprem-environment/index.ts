@@ -10,7 +10,7 @@ import {
 } from '@angular-devkit/schematics';
 import { OnPremOptions } from "./schema";
 import { normalize } from "@angular-devkit/core";
-import { EnvProcessor } from "./processor";
+import { EnvPathResult, EnvProcessor } from "./processor";
 import * as fs from "fs";
 import * as ts from "typescript";
 import { getDefaultEnvironmentCode, getSourceNodes } from "../utils/ast";
@@ -23,7 +23,7 @@ import { getDefaultEnvironmentCode, getSourceNodes } from "../utils/ast";
 export function onpremEnvironment(_options: OnPremOptions): Rule {
   return (tree: Tree, _context: SchematicContext) => {
     // @ts-ignore
-    let envsPath: string = '';
+    let envsPath: EnvPathResult;
     _options.config = _options.config || 'onprem';
 
     const processor = new EnvProcessor(_options);
@@ -41,26 +41,26 @@ export function onpremEnvironment(_options: OnPremOptions): Rule {
       }
 
       envsPath = processor.lookForBaseJsonPathInNG(angular);
-      if (!envsPath) {
+      if (!!envsPath.error) {
+        _context.logger.error(envsPath.error);
         _context.logger.error(`We not able to find the location of your \n
          environment.ts files. Project: ${_options.project} in your angular.json [${projs}] \n
          run command with --path property`);
         process.exit(2)
       }
 
-      _context.logger.warn('Env File will be created at ' + envsPath);
+      _context.logger.warn('Env File will be created at ' + envsPath.path);
 
       angular = processor.addFileReplacement(angular, envsPath);
 
       tree.overwrite('angular.json', JSON.stringify(angular, null, '\t'));
     } else {
-      console.error('can\'t find angular.json file', normalize(__dirname + 'angular.json'))
-
+      _context.logger.error(`can\'t find angular.json file ${normalize(__dirname + 'angular.json')}`)
+      process.exit(2);
     }
 
-    console.log('==>', typeof envsPath, envsPath, __dirname);
-    let sourceText = tree.read(envsPath + '/environment.ts')!.toString('utf-8');
-    let sourceFile = ts.createSourceFile(envsPath + '/environment.ts', sourceText, ts.ScriptTarget.Latest, true);
+    let sourceText = tree.read(envsPath.path + '/environment.ts')!.toString('utf-8');
+    let sourceFile = ts.createSourceFile(envsPath.path + '/environment.ts', sourceText, ts.ScriptTarget.Latest, true);
     let nodes: ts.Node[] = getSourceNodes(sourceFile);
 
     const baseEnvironmentVars = getDefaultEnvironmentCode(nodes);
@@ -79,7 +79,7 @@ export function onpremEnvironment(_options: OnPremOptions): Rule {
           ..._options,
           environmentFilesMerger: () => baseEnvironmentVars.getText()
         }),
-        move(normalize(envsPath))
+        move(normalize(envsPath.path as string))
       ]);
     let _R = mergeWith(transformedSource)(tree, _context);
 
