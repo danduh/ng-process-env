@@ -1,6 +1,6 @@
 {
   "name": "@ng-heroes/ng-process-env",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "**ng-process-env** will help you to retrieve values from System Environment variables and update relevant `environment.ts` file.",
   "scripts": {
     "prepublish": "npm run build",
