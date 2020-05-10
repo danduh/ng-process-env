@@ -1,6 +1,3 @@
-# Package was renamed to @ng-heroes/ng-process-env
-[@ng-heroes/ng-process-env](https://www.npmjs.com/package/@ng-heroes/ng-process-env)
-
 # Environment variables from process into Angular app
 
 Angular already has his own environment system, can configure everything in src/environments/environment.ts 
