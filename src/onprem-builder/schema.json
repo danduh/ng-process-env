@@ -1,5 +1,5 @@
 {
-  "id": "Schema",
+  "$id": "Schema",
   "title": "schema",
   "description": "Retrieve process environment variable during ng build",
   "type": "object",

@@ -30,8 +30,8 @@ export class EnvProcessor {
     configurations.some((configName) => {
       const config = angularJson.projects[this.options.project].architect.build.configurations[configName];
       if (config.hasOwnProperty('fileReplacements') && Array.isArray(config.fileReplacements)) {
-        for (let i = 0; i < config.fileReplacements.length; i++) {
-          const repls = config.fileReplacements[i].replace.split('/');
+        for (const element of config.fileReplacements) {
+          const repls = element.replace.split('/');
           if (repls.pop() === 'environment.ts') {
             envPath = repls.join('/');
             return true;
@@ -75,6 +75,7 @@ export class EnvProcessor {
   }
 
   updateJson() {
+    console.log("this.baseJson", this.baseJson)
     fs.writeFileSync(this.baseFilePath, JSON.stringify(this.baseJson, null, 4), 'utf8');
   }
 

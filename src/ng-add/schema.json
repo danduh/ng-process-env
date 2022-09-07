@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "ng-process-env-ng-add",
+  "$id": "ng-process-env-ng-add",
   "title": "NG Process Environment Builder ng-add schematic",
   "type": "object",
   "properties": {

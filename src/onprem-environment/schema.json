@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "process-env",
+  "$id": "process-env",
   "title": "Creates a file using the given path",
   "type": "object",
   "properties": {
@@ -8,14 +8,15 @@
       "type": "string",
       "description": "The path of the file to create."
     },
-    "config": {
-      "type": "string",
-      "description": "give a name to configuration, 'onprem' - default"
-    },
     "project": {
       "type": "string",
       "description": "Project name to update angular.json config.",
       "x-prompt": "Project name to update angular.json config. (you can skip and do it later using schematics or manually)"
+    },
+    "config": {
+      "type": "string",
+      "description": "Set environment.<configName>.ts. Default - 'onprem'.",
+      "x-prompt": "Set environment.<configName>.ts. Default - 'onprem'. If not set, - (environment.onprem.ts) will be created"
     }
   },
   "required": [

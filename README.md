@@ -1,29 +1,32 @@
 # Environment variables from process into Angular app
 
-Angular already has his own environment system, can configure everything in src/environments/environment.ts 
-and you can create as many environments as you want. 
-The problem is, sometimes you want to use the System Environment variables, 
-for example, some configuration from the CI server or if build process is running "on-premise" server, 
+Angular already has his own environment system, can configure everything in src/environments/environment.ts
+and you can create as many environments as you want.
+The problem is, sometimes you want to use the System Environment variables,
+for example, some configuration from the CI server or if build process is running "on-premise" server,
 in this case, Angular environment system will not help.
 
-**ng-process-env** will help you to retrieve values from System Environment variables and update relevant `environment.ts` file.
-
+**ng-process-env** will help you to retrieve values from System Environment variables (`process.env[]`) and update
+relevant `environment.ts` file.
 
 ### Installing
+
 Just add it into your app.
 
 ```bash
-ng add ng-process-env
+npm i ng-process-env
 ```
 
-You will be prompted to insert relevant project name project name.  
-You can skip it and use schematics generator later by running: 
+Run
 
 ```bash
 ng g ng-process-env:process-env
 ```
 
-Insert project name 
+> For monorepo managed by NRWL, use `nx` command instead of `ng`
+
+You will be prompted to insert relevant project name.
+
 ```bash
 ? Project name to update angular.json config. 
 (you can skip and do it later using schematics or manually) my-app
@@ -31,83 +34,63 @@ Insert project name
     Env File will be created at apps/my-app/src/environments
 ```
 
-Define environment name
+Define configuration name. It will create a `environment.<config>.ts` file in your /environments folder.
+
 ```bash
 ? You can set name for config to be updated or added as a new one, 'onprem' - default 
 ```
 
 #Collect Vars
+Open a created file `environment.<config>.ts`
+It should look like this:
 
-To update the created environment ts file with variables from process.env:
-```bash
-ng run my-app:collect-vars
-```
-
-
-#More details
-
-Navigate to `apps/my-app/src/environments` 
-Open a new created file `environment.onprem.ts`  
-Should looks similar to: 
-
-```typescript
-export const environment = {
-  production: false,
-  envVar: {
-    /**
-     * Add environment variables you want to retrieve from process
-     * PORT:4200,
-     * VAR_NAME: defaultValue
-     */
-  }
-};
-```
-
-Add variable names you want to be retrieved from `process.env`.  
-We suggest you to add default values too. 
-
-## Example
-
-_environment.onprem.ts_
-
-```typescript
-export const environment = {
-  production: false,
-  envVar: {
-    API_URL: 'http://localhost:3000',
-    servePort: 4200,
-    customer_id: '700',
-    otherKey: 'defaultValue'
-  }
-};
-```
-
-### Collect vars 
-
-To update _environment.onprem.ts_ with variables from environment run:
-
-```shell script
-ng run my-app:collect-vars
-```
-
-Updated _environment.onprem.ts_.
 ```typescript
 export const environment = {
     production: false,
+    baseUrl: 'http://localhost:4200',
     envVar: {
-        otherKey: 'defaultValue',
-        API_URL: "api.domain.com",
-        servePort: 5000 as number,
-        customer_id: "1234"
+        /**
+         * Add environment variables you want to retriev from process
+         * PORT:4200,
+         * VAR_NAME: defaultValue
+         */
     }
 };
 ```
 
-| environment.onprem.ts           | Type   | exported value   (process.env[someKey])| Will be changed with       |
-|---------------------------------|--------|--------------------------------------|------------------------------|
-| `API_URL: 'localhost:3000'`     | string | 'api.domain.com'                     | `API_URL: 'api.domain.com'`  |
-| `servePort: 4200`               | number | 5000                                 | `servePort: 5000 as number`  |
-| `customer_id: '700'`            | string | 1234                                 | `customer_id: '1234'`        |
-| `otherKey: 'defaultValue'`      | string | _null or undefined_                  | `otherKey: 'defaultValue'`   |
+Update `envVar` section with variables you want to be retrieved from `process.env`.
+- **Important**: set default values.
 
+```typescript
+export const environment = {
+    production: false,
+    baseUrl: 'http://localhost:4200',
+    envVar: {
+        myVarA: 3,
+        myVarB: 'someValue'
+    }
+};
+```
+
+### _This part can be run during CI/CD process_
+To update the created environment ts file with variables from `process.env`. 
+
+```bash
+export myVarA=4
+export myVarB=otherValue
+ng run my-app:collect-vars
+```
+It will change file to:
+```typescript
+export const environment = {
+  production: false,
+  baseUrl: "http://localhost:4200",
+  envVar: {
+    myVarA: 4 as number,
+    myVarB: "otherValue"
+  }
+};
+```
+
+After it, you can run a build command.
 
