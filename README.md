@@ -33,17 +33,15 @@ You will be prompted to insert relevant project name.
  Project my-app will be updated
     Env File will be created at apps/my-app/src/environments
 ```
-
-Define configuration name. It will create a `environment.<config>.ts` file in your /environments folder.
-
 ```bash
 ? You can set name for config to be updated or added as a new one, 'onprem' - default 
 ```
 
-#Collect Vars
-Open a created file `environment.<config>.ts`
-It should look like this:
+Define configuration name. It will create:
+ - `environment.<myconfig>.ts` file in your /environments folder.
+ - `<myconfig>` section in your angular.json or project.json for nrwl managed monorepo
 
+_environment.<myconfig>.ts_
 ```typescript
 export const environment = {
     production: false,
@@ -57,6 +55,32 @@ export const environment = {
     }
 };
 ```
+_angular.json_ \ _project.json_
+```json
+{
+  "targets": {
+    "build": {
+      ...
+      "configurations": {
+        "myconfig": {
+          "fileReplacements": [
+            {
+              "replace": "apps/portfolio/src/environments/environment.ts",
+              "with": "apps/portfolio/src/environments/environment.myconfig.ts"
+            }
+          ]
+        }
+      }
+    }
+  }
+}
+```
+
+Update `myconfig` section according to your needs
+
+
+## Collect Vars
+Open a created file `environment.<myconfig>.ts`
 
 Update `envVar` section with variables you want to be retrieved from `process.env`.
 - **Important**: set default values.
@@ -72,8 +96,8 @@ export const environment = {
 };
 ```
 
-### _This part can be run during CI/CD process_
-To update the created environment ts file with variables from `process.env`. 
+## _This part can be run during CI/CD process_
+To update the created environment.<myconfig>.ts file with variables from `process.env`. 
 
 ```bash
 export myVarA=4
@@ -93,4 +117,3 @@ export const environment = {
 ```
 
 After it, you can run a build command.
-
