@@ -1,4 +1,4 @@
-name: ng-process-env CI Process
+name: CI (Unit Tests)
 on:
   pull_request:
     branches:
