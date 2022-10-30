@@ -28,4 +28,4 @@ jobs:
       - name : Build end Test
         run : |
           npm ci
-          npx nx test
+          npm run test
