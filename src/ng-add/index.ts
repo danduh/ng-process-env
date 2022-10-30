@@ -3,18 +3,18 @@ import {
   schematic,
   SchematicContext,
   Tree,
-} from '@angular-devkit/schematics';
+} from "@angular-devkit/schematics";
 import { NgAddOptions } from "./schemas";
 
-export default function (ngAddOptions: NgAddOptions): Rule {
+export default function (ngAddOptions: NgAddOptions): Rule{
   return (host: Tree, context: SchematicContext) => {
-    if(!ngAddOptions.project){
+    if (!ngAddOptions.project) {
       return noop();
     }
 
     return chain(
       [
-        schematic('process-env', ngAddOptions)
+        schematic("process-env", ngAddOptions)
       ]
     )(host, context);
   };

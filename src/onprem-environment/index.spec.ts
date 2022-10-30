@@ -1,21 +1,20 @@
-import { SchematicTestRunner, UnitTestTree } from '@angular-devkit/schematics/testing';
+import { SchematicTestRunner, UnitTestTree } from "@angular-devkit/schematics/testing";
 
 const collectionPath = require.resolve("../collection.json");
 
-const NUMBER_OF_SCAFFOLDED_FILES = 30;
+const NUMBER_OF_SCAFFOLDED_FILES = 27;
 
-describe('process-env', () => {
+describe("process-env", () => {
   let appTree: UnitTestTree;
 
 
-  async function getWorkspaceTree(appName = "may-app") {
+  async function getWorkspaceTree(appName = "may-app"){
     const ngRunner = new SchematicTestRunner("@schematics/angular", "");
 
     const workspaceOptions = {
       name: "workspace",
       newProjectRoot: "projects",
       version: "6.0.0",
-      defaultProject: appName
     };
 
     const appOptions = {
@@ -37,9 +36,9 @@ describe('process-env', () => {
   }
 
 
-  it('works', async () => {
+  it("works", async () => {
 
-    const runner = new SchematicTestRunner('schematics', collectionPath);
+    const runner = new SchematicTestRunner("schematics", collectionPath);
 
     const tree = await runner
       .runSchematicAsync("ng-add", {}, await getWorkspaceTree())
