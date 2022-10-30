@@ -1,4 +1,4 @@
-name: ng-process-env CI Process
+name: CI (Unit Tests)
 on:
   pull_request:
     branches:
@@ -28,4 +28,4 @@ jobs:
       - name : Build end Test
         run : |
           npm ci
-          npx nx test
+          npm run test

@@ -1,3 +1,5 @@
+[![ng-process-env CI Process](https://github.com/danduh/ng-process-env/actions/workflows/main.yml/badge.svg)](https://github.com/danduh/ng-process-env/actions/workflows/main.yml)
+
 # Environment variables from process into Angular app
 
 Angular already has its own environment system, which allows us to configure everything in
