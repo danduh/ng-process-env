@@ -1,8 +1,6 @@
-import { BuilderContext, BuilderOutput, createBuilder } from '@angular-devkit/architect';
-import { JsonObject } from '@angular-devkit/core';
-// import { getEnvironmentVarsForProcess, getSourceNodes } from "../utils/ast";
+import { BuilderContext, BuilderOutput, createBuilder } from "@angular-devkit/architect";
+import { JsonObject } from "@angular-devkit/core";
 import * as ts from "typescript";
-// import { readFileSync } from "fs";
 import {
   OptionalKind,
   Project,
@@ -25,12 +23,12 @@ interface Options extends JsonObject {
 export default createBuilder<Options>(
   async (options: Options, context: BuilderContext): Promise<BuilderOutput> => {
 
-    context.reportStatus(`Executing my command "${options.environmentFile}"...`);
+    context.reportStatus(`Executing my command "${ options.environmentFile }"...`);
     const project = new Project({
       compilerOptions: {target: ScriptTarget.Latest}
     });
 
-    const sourceFile = project.addSourceFileAtPath('./' + options.environmentFile);
+    const sourceFile = project.addSourceFileAtPath("./" + options.environmentFile);
     // get the object literal
     const additionalDataProp = sourceFile
       .getVariableDeclarationOrThrow("environment")
@@ -88,18 +86,6 @@ export default createBuilder<Options>(
     }
 
     sourceFile.saveSync();
-
-    // context.logger.info(JSON.stringify(options));
-
-
-    // const collectVars = await context.scheduleTarget({
-    //   target: 'build',
-    //   project: context.target !== undefined ? context.target.project : '',
-    //   configuration
-    // });
-
-    // let buildResult = await collectVars.result;
-
     return {success: true};
 
   });
