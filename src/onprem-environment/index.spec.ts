@@ -2,7 +2,7 @@ import { SchematicTestRunner, UnitTestTree } from "@angular-devkit/schematics/te
 
 const collectionPath = require.resolve("../collection.json");
 
-const NUMBER_OF_SCAFFOLDED_FILES = 27;
+const NUMBER_OF_SCAFFOLDED_FILES = 21;
 
 describe("process-env", () => {
   let appTree: UnitTestTree;
