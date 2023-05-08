@@ -1,13 +1,6 @@
 import { BuilderContext, BuilderOutput, createBuilder } from "@angular-devkit/architect";
 import { JsonObject } from "@angular-devkit/core";
-import * as ts from "typescript";
-import {
-  OptionalKind,
-  Project,
-  PropertyAssignment,
-  PropertyAssignmentStructure,
-  ScriptTarget,
-} from "ts-morph";
+import { OptionalKind, Project, PropertyAssignment, PropertyAssignmentStructure, ScriptTarget, ts } from "ts-morph";
 import {
   getAnyValueFromProcess,
   getBooleanFromProcess,
@@ -15,6 +8,7 @@ import {
   getStringFromProcess,
   NO_ENV_VAR_OR_VALUE_IN_PROCESS
 } from "../utils/ast";
+// import { ts } from "@ts-morph/common/lib/typescript";
 
 interface Options extends JsonObject {
   environmentFile: string;
@@ -23,9 +17,9 @@ interface Options extends JsonObject {
 export default createBuilder<Options>(
   async (options: Options, context: BuilderContext): Promise<BuilderOutput> => {
 
-    context.reportStatus(`Executing my command "${ options.environmentFile }"...`);
+    context.reportStatus(`Executing my command "${options.environmentFile}"...`);
     const project = new Project({
-      compilerOptions: {target: ScriptTarget.Latest}
+      compilerOptions: { target: ScriptTarget.Latest }
     });
 
     const sourceFile = project.addSourceFileAtPath("./" + options.environmentFile);
@@ -45,47 +39,47 @@ export default createBuilder<Options>(
         const propName = c.getSymbol()?.getName() as string;
 
         let toUpdate = false;
-        if (c.getType().isBoolean()) {
+        if(c.getType().isBoolean()) {
 
           const _var = getBooleanFromProcess(propName);
-          if (_var !== NO_ENV_VAR_OR_VALUE_IN_PROCESS) {
+          if(_var !== NO_ENV_VAR_OR_VALUE_IN_PROCESS) {
             toUpdate = true;
             LOST_OF_VARS.push(_var as OptionalKind<PropertyAssignmentStructure>);
           }
-        } else if (c.getType().isNumber()) {
+        } else if(c.getType().isNumber()) {
 
           const _var = getNumberFromProcess(propName);
-          if (_var !== NO_ENV_VAR_OR_VALUE_IN_PROCESS) {
+          if(_var !== NO_ENV_VAR_OR_VALUE_IN_PROCESS) {
             toUpdate = true;
             LOST_OF_VARS.push(_var as OptionalKind<PropertyAssignmentStructure>);
           }
-        } else if (c.getType().isString()) {
+        } else if(c.getType().isString()) {
 
           const _var = getStringFromProcess(propName);
-          if (_var !== NO_ENV_VAR_OR_VALUE_IN_PROCESS) {
+          if(_var !== NO_ENV_VAR_OR_VALUE_IN_PROCESS) {
             toUpdate = true;
             LOST_OF_VARS.push(_var as OptionalKind<PropertyAssignmentStructure>);
           }
-        } else if (c.getType().isNull() || c.getType().isUndefined()) {
+        } else if(c.getType().isNull() || c.getType().isUndefined()) {
 
           const _var = getAnyValueFromProcess(propName);
-          if (_var !== NO_ENV_VAR_OR_VALUE_IN_PROCESS) {
+          if(_var !== NO_ENV_VAR_OR_VALUE_IN_PROCESS) {
             toUpdate = true;
             LOST_OF_VARS.push(_var as OptionalKind<PropertyAssignmentStructure>);
           }
         }
 
-        if (toUpdate) {
+        if(toUpdate) {
           c.remove();
         }
 
       });
 
-    if (LOST_OF_VARS.length > 0) {
+    if(LOST_OF_VARS.length > 0) {
       additionalDataObjLit.addPropertyAssignments(LOST_OF_VARS)
     }
 
     sourceFile.saveSync();
-    return {success: true};
+    return { success: true };
 
   });

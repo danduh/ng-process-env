@@ -8,7 +8,7 @@ describe("process-env", () => {
   let appTree: UnitTestTree;
 
 
-  async function getWorkspaceTree(appName = "may-app"){
+  async function getWorkspaceTree(appName = "may-app") {
     const ngRunner = new SchematicTestRunner("@schematics/angular", "");
 
     const workspaceOptions = {
@@ -26,11 +26,10 @@ describe("process-env", () => {
     };
 
     appTree = await ngRunner
-      .runSchematicAsync("workspace", workspaceOptions)
-      .toPromise();
+      .runSchematic("workspace", workspaceOptions);
+
     appTree = await ngRunner
-      .runSchematicAsync("application", appOptions, appTree)
-      .toPromise();
+      .runSchematic("application", appOptions, appTree);
 
     return appTree;
   }
@@ -41,8 +40,7 @@ describe("process-env", () => {
     const runner = new SchematicTestRunner("schematics", collectionPath);
 
     const tree = await runner
-      .runSchematicAsync("ng-add", {}, await getWorkspaceTree())
-      .toPromise();
+      .runSchematic("ng-add", {}, await getWorkspaceTree());
     expect(tree.files.length).toEqual(NUMBER_OF_SCAFFOLDED_FILES);
   });
 });
